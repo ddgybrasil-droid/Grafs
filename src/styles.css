@@ -945,7 +945,19 @@ button:disabled {
 }
 
 .react-flow__attribution {
-  display: none;
+  padding: 2px 4px;
+  border-radius: 3px 0 0;
+  background: rgba(13, 17, 23, 0.72);
+  font-size: 7px;
+}
+
+.react-flow__attribution a {
+  color: #4f5a6b;
+  text-decoration: none;
+}
+
+.react-flow__attribution a:hover {
+  color: #8994a7;
 }
 
 .context-menu {
