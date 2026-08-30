@@ -209,6 +209,7 @@ const App = () => {
       const node: EntityNode = {
         id,
         type: 'entity',
+        selected: true,
         position,
         data: {
           ...draft,
@@ -224,7 +225,10 @@ const App = () => {
       setProject((current) => ({
         ...current,
         updatedAt: now(),
-        nodes: [...current.nodes, node],
+        nodes: [
+          ...current.nodes.map((candidate) => ({ ...candidate, selected: false })),
+          node,
+        ],
       }));
       setSelectedNodeId(id);
       setFocusRequest({ nodeId: id, nonce: Date.now() });
@@ -263,7 +267,7 @@ const App = () => {
     const duplicated: EntityNode = {
       ...source,
       id,
-      selected: false,
+      selected: true,
       position: { x: source.position.x + 54, y: source.position.y + 54 },
       data: {
         ...structuredClone(source.data),
@@ -280,7 +284,10 @@ const App = () => {
     setProject((current) => ({
       ...current,
       updatedAt: now(),
-      nodes: [...current.nodes, duplicated],
+      nodes: [
+        ...current.nodes.map((node) => ({ ...node, selected: false })),
+        duplicated,
+      ],
     }));
     setSelectedNodeId(id);
     setFocusRequest({ nodeId: id, nonce: Date.now() });
@@ -317,6 +324,19 @@ const App = () => {
         return next;
       });
     }
+    setProject((current) => {
+      const selectionChanged = current.nodes.some(
+        (candidate) => Boolean(candidate.selected) !== (candidate.id === nodeId),
+      );
+      if (!selectionChanged) return current;
+      return {
+        ...current,
+        nodes: current.nodes.map((candidate) => ({
+          ...candidate,
+          selected: candidate.id === nodeId,
+        })),
+      };
+    });
     setSelectedNodeId(nodeId);
     setFocusRequest({ nodeId, nonce: Date.now() });
   };

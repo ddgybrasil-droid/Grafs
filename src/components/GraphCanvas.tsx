@@ -83,11 +83,8 @@ export const GraphCanvas = ({
   const [contextMenu, setContextMenu] = useState<ContextMenuState | null>(null);
 
   const visibleNodes = useMemo(
-    () =>
-      nodes
-        .filter((node) => !hiddenTypes.has(node.data.entityType))
-        .map((node) => ({ ...node, selected: node.id === selectedNodeId || node.selected })),
-    [hiddenTypes, nodes, selectedNodeId],
+    () => nodes.filter((node) => !hiddenTypes.has(node.data.entityType)),
+    [hiddenTypes, nodes],
   );
   const visibleNodeIds = useMemo(
     () => new Set(visibleNodes.map((node) => node.id)),

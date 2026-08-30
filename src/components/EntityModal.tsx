@@ -55,8 +55,19 @@ export const EntityModal = ({ node, onClose, onSave }: EntityModalProps) => {
 
   const handleTypeChange = (type: EntityType) => {
     setEntityType(type);
-    if (!node && type === 'person' && attributes.every((row) => !row.key && !row.value)) {
+    if (node) return;
+
+    const hasValues = attributes.some((row) => row.value.trim());
+    const isEmptyPersonTemplate =
+      !hasValues &&
+      attributes.every((row) =>
+        ['Aliases', 'Date of birth', 'Position'].includes(row.key),
+      );
+
+    if (type === 'person' && attributes.every((row) => !row.key && !row.value)) {
       setAttributes(defaultRows(type));
+    } else if (entityType === 'person' && isEmptyPersonTemplate) {
+      setAttributes([{ id: crypto.randomUUID(), key: '', value: '' }]);
     }
   };
 
