@@ -23,6 +23,10 @@ npm run preview
 
 ## Windows EXE
 
+Download the ready-to-run portable build:
+
+**[Relation-Canvas-1.0.0-Windows-x64.exe](./downloads/Relation-Canvas-1.0.0-Windows-x64.exe)**
+
 Build a self-contained Windows x64 portable executable:
 
 ```bash
